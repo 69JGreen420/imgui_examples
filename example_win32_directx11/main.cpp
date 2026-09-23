@@ -65,7 +65,16 @@ int main(int, char**)
     //ImGui::StyleColorsLight();
 
     // Setup scaling
+
+    // GetStyle controls the spacing, rounding, and the colours
     ImGuiStyle& style = ImGui::GetStyle();
+
+    // Controls how rounded corners are
+    style.WindowRounding = 8.0f;
+
+    // Controls rounding of UI elements
+    style.FrameRounding = 6.0f;
+
     style.ScaleAllSizes(main_scale);        // Bake a fixed style scale. (until we have a solution for dynamic style scaling, changing this requires resetting Style + calling this again)
     style.FontScaleDpi = main_scale;        // Set initial font scale. (in docking branch: using io.ConfigDpiScaleFonts=true automatically overrides this for every window depending on the current monitor)
 
@@ -101,6 +110,7 @@ int main(int, char**)
     static float value = 0.5f;
     static int value1 = 1;
     static char buffer[64] = ""; // Empty buffer
+    static ImVec4 color = ImVec4{ 1, 0, 0, 1 };
 
     bool done = false;
     bool open = true;
@@ -163,22 +173,25 @@ int main(int, char**)
         );
         ImGui::Text("Welcome to my ImGui app!");
 
-        // Center the button horizontally by computing its width from the label
-        const char* btn_label = "Click me!";
-        ImGuiStyle& style_local = ImGui::GetStyle();
-        float text_width = ImGui::CalcTextSize(btn_label).x;
-        // Button width = text width + horizontal frame padding on both sides
-        // Padding is the extra length around the text for the box
-        // We * 2 because there is padding on both sides
-        float button_width = text_width + style_local.FramePadding.x * 2.0f;
-        // Available content width in the current window
-        float avail_width = ImGui::GetContentRegionAvail().x;
-        // Move cursor to center the button
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (avail_width - button_width) * 0.5f);
-        if (ImGui::Button(btn_label, ImVec2(button_width, 0.0f)))
+        // We can push the colour onto one element if we only want to change one (e.g a button)
+        // This only affects elements between the push and pop
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+
+        if (ImGui::Button("Click me!"))
         {
             // Anything you type here will be executed
         }
+
+        // PushStyleColor must go with PopStyleColor
+        ImGui::PopStyleColor();
+
+        if (ImGui::Button("It's a me!"))
+        {
+            // Anything you type here will be executed
+        }
+
+        // We can use ImGui::SameLine to keep the next UI element on the same line
+        ImGui::SameLine();
 
         // Create checkbox
         ImGui::Checkbox("Magic text", &checkboxValue);
@@ -194,6 +207,10 @@ int main(int, char**)
         // InputText allows you to input text values into the buffer
         // We use sizeof to get the size of the buffer
         ImGui::InputText("Name", buffer, sizeof(buffer));
+
+        // ColorEdit allows you to add a color box, to do color changes later
+        // Note that ImVec4 needs to be casted as float
+        ImGui::ColorEdit4("Color", (float*)&color);
         ImGui::End();
 
         // Rendering
