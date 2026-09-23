@@ -100,12 +100,14 @@ int main(int, char**)
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf");
     //IM_ASSERT(font != nullptr);
 
+    // Initialise font
+    ImFont* mainFont = io.Fonts->AddFontFromFileTTF("C:/Windows/Fonts/Bahnschrift.ttf");
+
     // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    // Main loop - this is an update loop as it edits every frame
     bool checkboxValue = false;
     static float value = 0.5f;
     static int value1 = 1;
@@ -114,6 +116,8 @@ int main(int, char**)
 
     bool done = false;
     bool open = true;
+
+    // Main loop - this is an update loop as it edits every frame
     while (!done)
     {
         // Poll and handle messages (inputs, window resize, etc.)
@@ -171,6 +175,7 @@ int main(int, char**)
             ImGui::GetWindowSize().x / 2 - // Get half of the window size
             ImGui::CalcTextSize("Welcome to my ImGui app!").x / 2 // Get half of the text size
         );
+
         ImGui::Text("Welcome to my ImGui app!");
 
         // We can push the colour onto one element if we only want to change one (e.g a button)
