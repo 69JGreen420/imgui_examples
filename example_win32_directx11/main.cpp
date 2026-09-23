@@ -141,7 +141,7 @@ int main(int, char**)
         ImGui::Begin(
             "My new ImGui app",
             &open,
-            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImG );
+            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
 
         ImGui::End();
 
