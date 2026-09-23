@@ -98,6 +98,9 @@ int main(int, char**)
 
     // Main loop - this is an update loop as it edits every frame
     bool checkboxValue = false;
+    static float value = 0.5f;
+    static int value1 = 1;
+    static char buffer[64] = ""; // Empty buffer
 
     bool done = false;
     bool open = true;
@@ -183,6 +186,14 @@ int main(int, char**)
         if (checkboxValue)
             ImGui::Text("Truth nuke");
 
+        // We can create different slider types for different things
+        // Note: if we use "##", the label will become the ID of that element
+        ImGui::SliderFloat("##floatSlider", &value, 0.0f, 100.0f);
+        ImGui::SliderInt("My Int Slider", &value1, 10.0f, 500.0f);
+
+        // InputText allows you to input text values into the buffer
+        // We use sizeof to get the size of the buffer
+        ImGui::InputText("Name", buffer, sizeof(buffer));
         ImGui::End();
 
         // Rendering
