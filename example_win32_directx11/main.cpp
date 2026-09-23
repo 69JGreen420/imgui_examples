@@ -97,6 +97,8 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     // Main loop - this is an update loop as it edits every frame
+    bool checkboxValue = false;
+
     bool done = false;
     bool open = true;
     while (!done)
@@ -154,9 +156,32 @@ int main(int, char**)
         // Since we don't want the text to be left centred, we half that too
         ImGui::SetCursorPosX(
             ImGui::GetWindowSize().x / 2 - // Get half of the window size
-            ImGui::CalcTextSize("Hello").x / 2 // Get half of the text size
+            ImGui::CalcTextSize("Welcome to my ImGui app!").x / 2 // Get half of the text size
         );
-        ImGui::Text("Hello");
+        ImGui::Text("Welcome to my ImGui app!");
+
+        // Center the button horizontally by computing its width from the label
+        const char* btn_label = "Click me!";
+        ImGuiStyle& style_local = ImGui::GetStyle();
+        float text_width = ImGui::CalcTextSize(btn_label).x;
+        // Button width = text width + horizontal frame padding on both sides
+        // Padding is the extra length around the text for the box
+        // We * 2 because there is padding on both sides
+        float button_width = text_width + style_local.FramePadding.x * 2.0f;
+        // Available content width in the current window
+        float avail_width = ImGui::GetContentRegionAvail().x;
+        // Move cursor to center the button
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (avail_width - button_width) * 0.5f);
+        if (ImGui::Button(btn_label, ImVec2(button_width, 0.0f)))
+        {
+            // Anything you type here will be executed
+        }
+
+        // Create checkbox
+        ImGui::Checkbox("Magic text", &checkboxValue);
+
+        if (checkboxValue)
+            ImGui::Text("Truth nuke");
 
         ImGui::End();
 
