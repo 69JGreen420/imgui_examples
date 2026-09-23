@@ -139,14 +139,24 @@ int main(int, char**)
         // Before setting a window, we can set window size
         // Note that if other parameters are given predefined values, they are optional
         // However, this isn't dynamic, so the resolution will be different for other devices
-        ImGui::SetWindowSize(ImVec2(300, 200));
+        ImGui::SetNextWindowSize(ImVec2(600, 400));
+
+        // Set the starting position from the top-left corner
+        // However this is a problem as it excutes every second
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
 
         // Name window, open window, and cast ImGui window
         // We can add flags to ImGui to customise it
-        ImGui::Begin(
-            "My new ImGui app",
-            &open
+        ImGui::Begin("My new ImGui app", &open);
+
+        // SetCursorPos moves an element the desired amount
+        // We then do calculations to centre the text
+        // Since we don't want the text to be left centred, we half that too
+        ImGui::SetCursorPosX(
+            ImGui::GetWindowSize().x / 2 - // Get half of the window size
+            ImGui::CalcTextSize("Hello").x / 2 // Get half of the text size
         );
+        ImGui::Text("Hello");
 
         ImGui::End();
 
