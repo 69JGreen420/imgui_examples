@@ -136,12 +136,17 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
+        // Before setting a window, we can set window size
+        // Note that if other parameters are given predefined values, they are optional
+        // However, this isn't dynamic, so the resolution will be different for other devices
+        ImGui::SetWindowSize(ImVec2(300, 200));
+
         // Name window, open window, and cast ImGui window
         // We can add flags to ImGui to customise it
         ImGui::Begin(
             "My new ImGui app",
-            &open,
-            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar );
+            &open
+        );
 
         ImGui::End();
 
